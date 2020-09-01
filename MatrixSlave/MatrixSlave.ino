@@ -2,8 +2,10 @@
 #define NUM_LEDS 256 //  The number of LEDS on matrix
 #define DATA_PIN 3  //  Data-In of matrix
 #define BRIGHTNESS 64
+#define DEBUG
 CRGB leds[NUM_LEDS];
 char state;
+char received = 'X';
 int t=0;
 
 
@@ -15,27 +17,58 @@ void setup() {
 
 void loop() {
 	if (Serial.available() > 0) { // Checks whether data is comming from the serial port
-		state = Serial.read();
+		received = Serial.read();
+#ifdef DEBUG
+		Serial.print("Received: ");
+		Serial.println(received);
+		Serial.print("State: ");
 		Serial.println(state);
-		switch(state) {
+#endif
+
+		switch(received) {
 			case 'L': // X-Axis Left
-				Serial.println("X-Axis Left");
-				LeftArrowBlink();
+				state=received;
 			break;
 			case 'R': // X-Axis Right
-				Serial.println("X-Axis Right");
-				RightArrowBlink();
+				state=received;
 			break;
 			case 'U': // Y-Axis Up
-				ExclamationMarkBlink();
+				state=received;
 			break;
 			case 'D': // Y-Axis Down
-				RedSquareBlink();
+				state=received;
 			break;
 			case 'N': // Clear / Reset
-				Clear();
+				state=received;
 			break;
 		}
+	}
+	switch(state) {
+		case 'L': // X-Axis Left
+#ifdef DEBUG
+			Serial.println("X-Axis Left");
+#endif
+			LeftArrowBlink();
+		break;
+		case 'R': // X-Axis Right
+			state=received;
+#ifdef DEBUG
+			Serial.println("X-Axis Right");
+#endif
+			RightArrowBlink();
+		break;
+		case 'U': // Y-Axis Up
+			state=received;
+			ExclamationMarkBlink();
+		break;
+		case 'D': // Y-Axis Down
+			state=received;
+			RedSquareBlink();
+		break;
+		case 'N': // Clear / Reset
+			state=received;
+			Clear();
+		break;
 	}
 }
 
