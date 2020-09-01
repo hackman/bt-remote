@@ -210,30 +210,26 @@ void ExclamationMarkBlink()  {
 
 
 void RedSquareBlink()  {
-	while (state == 'D') {
-		FastLED.clear();
-		fill_solid (leds, NUM_LEDS, CRGB::Red);
-		FastLED.setBrightness(BRIGHTNESS);
-		FastLED.show();
-		delay(500);
-		FastLED.clear();
-		FastLED.show();
-		delay(500);
-		Serial.write('S');
-	}   
+	FastLED.clear();
+	fill_solid (leds, NUM_LEDS, CRGB::Red);
+	FastLED.setBrightness(BRIGHTNESS);
+	FastLED.show();
+	delay(500);
+	FastLED.clear();
+	FastLED.show();
+	delay(500);
+	Serial.write('S');
 }
 
 
 void Clear()  {
-	while (state == 'N') {
-		FastLED.clear();
-		fill_solid (leds, NUM_LEDS, CRGB::Blue);
-		FastLED.setBrightness(BRIGHTNESS);
-		FastLED.show();
-		delay(500);
-		FastLED.clear();
-		FastLED.show();
-		delay(500);
-		Serial.write('C'); 
-	}
+	FastLED.clear();
+	fill_solid (leds, NUM_LEDS, CRGB::Blue);
+	FastLED.setBrightness(BRIGHTNESS);
+	FastLED.show();
+	delay(500);
+	FastLED.clear();
+	FastLED.show();
+	delay(500);
+	Serial.write('C');
 }
