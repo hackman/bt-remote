@@ -51,22 +51,18 @@ void loop() {
 			LeftArrowBlink();
 		break;
 		case 'R': // X-Axis Right
-			state=received;
 #ifdef DEBUG
 			Serial.println("X-Axis Right");
 #endif
 			RightArrowBlink();
 		break;
 		case 'U': // Y-Axis Up
-			state=received;
 			ExclamationMarkBlink();
 		break;
 		case 'D': // Y-Axis Down
-			state=received;
 			RedSquareBlink();
 		break;
 		case 'N': // Clear / Reset
-			state=received;
 			Clear();
 		break;
 	}
