@@ -30,7 +30,7 @@ void loop() {
 		case 'D': // Y-Axis Down
 			RedSquareBlink();
 		break;
-		case 'N' // Clear / Reset
+		case 'N': // Clear / Reset
 			Clear();
 		break;
 	}
@@ -184,23 +184,23 @@ void ExclamationMarkBlink()  {
 	}
 	for (t=0; t<3; t++) {
 		FastLED.clear();
-		lights_leds(5,8);
-		lights_leds(23,26);
-		lights_leds(37,40);
-		lights_leds(55,58);
-		lights_leds(69,72);
-		lights_leds(87,104);
-		lights_leds(119,136);
+		light_leds(5,8);
+		light_leds(23,26);
+		light_leds(37,40);
+		light_leds(55,58);
+		light_leds(69,72);
+		light_leds(87,104);
+		light_leds(119,136);
 		FastLED.show();
 		delay(300);
 		FastLED.clear();
-		lights_leds(12,19);
-		lights_leds(44,51);
-		lights_leds(77,83);
-		lights_leds(108,115);
-		lights_leds(140,147);
-		lights_leds(172,179);
-		lights_leds(192,255);
+		light_leds(12,19);
+		light_leds(44,51);
+		light_leds(77,83);
+		light_leds(108,115);
+		light_leds(140,147);
+		light_leds(172,179);
+		light_leds(192,255);
 		FastLED.show();
 		delay(300);
 		FastLED.clear();
