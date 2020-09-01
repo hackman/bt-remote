@@ -16,23 +16,26 @@ void setup() {
 void loop() {
 	if (Serial.available() > 0) { // Checks whether data is comming from the serial port
 		state = Serial.read();
-	}
-	switch(state) {
-		case 'L': // X-Axis Left
-			LeftArrowBlink();
-		break;
-		case 'R': // X-Axis Right
-			RightArrowBlink();
-		break;
-		case 'U': // Y-Axis Up
-			ExclamationMarkBlink();
-		break;
-		case 'D': // Y-Axis Down
-			RedSquareBlink();
-		break;
-		case 'N': // Clear / Reset
-			Clear();
-		break;
+		Serial.println(state);
+		switch(state) {
+			case 'L': // X-Axis Left
+				Serial.println("X-Axis Left");
+				LeftArrowBlink();
+			break;
+			case 'R': // X-Axis Right
+				Serial.println("X-Axis Right");
+				RightArrowBlink();
+			break;
+			case 'U': // Y-Axis Up
+				ExclamationMarkBlink();
+			break;
+			case 'D': // Y-Axis Down
+				RedSquareBlink();
+			break;
+			case 'N': // Clear / Reset
+				Clear();
+			break;
+		}
 	}
 }
 
