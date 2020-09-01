@@ -75,7 +75,7 @@ void LeftArrowBlink() { // Function that is called when Vx is <= 100 and shows a
 		FastLED.show();
 		delay(1000);
 		FastLED.clear();
-		for (t=0;t<3;t=t+1){
+		for (t=0; t<3; t++) {
 			FastLED.clear();
 			light_leds(119,136);
 			light_leds(151,168);
@@ -140,7 +140,7 @@ void RightArrowBlink()  {// Function that is called when Vx is >= 1000 and shows
 		FastLED.show();
 		delay(1000);
 		FastLED.clear();
-		for (t=0;t<3;t=t+1) {
+		for (t=0; t<3; t++) {
 			FastLED.clear();
 			light_leds(0,3);
 			light_leds(28,35);
@@ -171,7 +171,7 @@ void RightArrowBlink()  {// Function that is called when Vx is >= 1000 and shows
 
 void ExclamationMarkBlink()  {   
 	while (state == 'U') {
-		for (t=0;t<3;t=t+1){
+		for (t=0; t<3; t++) {
 			FastLED.clear();
 			light_leds(1,4);
 			light_leds(26,37);
@@ -188,7 +188,7 @@ void ExclamationMarkBlink()  {
 			FastLED.clear();
 		}
 		t=0;
-		for (t=0;t<3;t=t+1){
+		for (t=0; t<3; t++) {
 			FastLED.clear();
 			lights_leds(5,8);
 			lights_leds(23,26);
