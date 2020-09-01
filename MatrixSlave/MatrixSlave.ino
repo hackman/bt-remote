@@ -15,35 +15,8 @@ void setup() {
 	Serial.begin(38400); 
 }
 
-void loop() {
-	if (Serial.available() > 0) { // Checks whether data is comming from the serial port
-		received = Serial.read();
-#ifdef DEBUG
-		Serial.print("Received: ");
-		Serial.println(received);
-		Serial.print("State: ");
-		Serial.println(state);
-#endif
-
-		switch(received) {
-			case 'L': // X-Axis Left
-				state=received;
-			break;
-			case 'R': // X-Axis Right
-				state=received;
-			break;
-			case 'U': // Y-Axis Up
-				state=received;
-			break;
-			case 'D': // Y-Axis Down
-				state=received;
-			break;
-			case 'N': // Clear / Reset
-				state=received;
-			break;
-		}
-	}
-	switch(state) {
+void select_action(char s) {
+	switch(s) {
 		case 'L': // X-Axis Left
 #ifdef DEBUG
 			Serial.println("X-Axis Left");
@@ -68,6 +41,57 @@ void loop() {
 	}
 }
 
+int check_serial() {
+	if (Serial.available() > 0) { // Checks whether data is comming from the serial port
+		received = Serial.read();
+#ifdef DEBUG
+		Serial.print("Received: ");
+		Serial.println(received);
+		Serial.print("State: ");
+		Serial.println(state);
+#endif
+
+		switch(received) {
+			case 'L': // X-Axis Left
+				state=received;
+				return 1;
+			break;
+			case 'R': // X-Axis Right
+				state=received;
+				return 1;
+			break;
+			case 'U': // Y-Axis Up
+				state=received;
+				return 1;
+			break;
+			case 'D': // Y-Axis Down
+				state=received;
+				return 1;
+			break;
+			case 'N': // Clear / Reset
+				state=received;
+				return 1;
+			break;
+		}
+	}
+	return 0;
+}
+
+int check_interrupt(int wait) {
+	int count = wait/100;
+	for (int i=0; i<count; i++) {
+		delay(100);
+		if (check_serial()) {
+			return 1;
+		}
+	}
+}
+
+void loop() {
+	check_serial();
+	select_action(state);
+}
+
 void light_leds(int start, int end) {
 	for (int led=start; led<=end; led++) {
 		leds [ led ] = CRGB (0,255,0);
@@ -89,7 +113,9 @@ void LeftArrowBlink() { // Function that is called when Vx is <= 100 and shows a
 	light_leds(226,228);
 	light_leds(252,252);
 	FastLED.show();
-	delay(1000);
+	if (check_interrupt(1000)) {
+		return;
+	}
 	FastLED.clear();
 	light_leds(0,63);
 	light_leds(76,83);
@@ -106,7 +132,9 @@ void LeftArrowBlink() { // Function that is called when Vx is <= 100 and shows a
 	light_leds(236,243);
 	light_leds(247,250);
 	FastLED.show();
-	delay(1000);
+	if (check_interrupt(1000)) {
+		return;
+	}
 	FastLED.clear();
 	for (t=0; t<3; t++) {
 		FastLED.clear();
@@ -118,7 +146,9 @@ void LeftArrowBlink() { // Function that is called when Vx is <= 100 and shows a
 		light_leds(229,232);
 		light_leds(247,250);
 		FastLED.show();
-		delay(300);
+		if (check_interrupt(300)) {
+			return;
+		}
 		FastLED.clear();
 		light_leds(0,63);
 		light_leds(76,83);
@@ -128,7 +158,9 @@ void LeftArrowBlink() { // Function that is called when Vx is <= 100 and shows a
 		light_leds(204,211);
 		light_leds(236,243);
 		FastLED.show();
-		delay(300);
+		if (check_interrupt(300)) {
+			return;
+		}
 		FastLED.clear();
 	}
 	Serial.write('A');
@@ -152,7 +184,9 @@ void RightArrowBlink()  {// Function that is called when Vx is >= 1000 and shows
 	light_leds(216,232);
 	light_leds(246,255);
 	FastLED.show();
-	delay(1000);
+	if (check_interrupt(1000)) {
+		return;
+	}
 	FastLED.clear();
 	light_leds(0,3);
 	light_leds(7,10);
@@ -168,7 +202,9 @@ void RightArrowBlink()  {// Function that is called when Vx is >= 1000 and shows
 	light_leds(156,163);
 	light_leds(188,255);
 	FastLED.show();
-	delay(1000);
+	if (check_interrupt(1000)) {
+		return;
+	}
 	FastLED.clear();
 	for (t=0; t<3; t++) {
 		FastLED.clear();
@@ -180,7 +216,9 @@ void RightArrowBlink()  {// Function that is called when Vx is >= 1000 and shows
 		light_leds(156,163);
 		light_leds(188,255);
 		FastLED.show();
-		delay(300);
+		if (check_interrupt(300)) {
+			return;
+		}
 		FastLED.clear();
 		light_leds(0,3);
 		light_leds(28,35);
@@ -190,7 +228,9 @@ void RightArrowBlink()  {// Function that is called when Vx is >= 1000 and shows
 		light_leds(156,163);
 		light_leds(188,255);
 		FastLED.show();
-		delay(300);
+		if (check_interrupt(300)) {
+			return;
+		}
 		FastLED.clear();
 	}
 	Serial.write('D');
@@ -211,7 +251,9 @@ void ExclamationMarkBlink()  {
 		light_leds(205,211);
 		light_leds(236,242);
 		FastLED.show();
-		delay(300);
+		if (check_interrupt(300)) {
+			return;
+		}
 		FastLED.clear();
 	}
 	for (t=0; t<3; t++) {
@@ -224,7 +266,9 @@ void ExclamationMarkBlink()  {
 		light_leds(87,104);
 		light_leds(119,136);
 		FastLED.show();
-		delay(300);
+		if (check_interrupt(300)) {
+			return;
+		}
 		FastLED.clear();
 		light_leds(12,19);
 		light_leds(44,51);
@@ -234,7 +278,9 @@ void ExclamationMarkBlink()  {
 		light_leds(172,179);
 		light_leds(192,255);
 		FastLED.show();
-		delay(300);
+		if (check_interrupt(300)) {
+			return;
+		}
 		FastLED.clear();
 	}
 	Serial.write('W');
@@ -246,10 +292,14 @@ void RedSquareBlink()  {
 	fill_solid (leds, NUM_LEDS, CRGB::Red);
 	FastLED.setBrightness(BRIGHTNESS);
 	FastLED.show();
-	delay(500);
+	if (check_interrupt(500)) {
+		return;
+	}
 	FastLED.clear();
 	FastLED.show();
-	delay(500);
+	if (check_interrupt(500)) {
+		return;
+	}
 	Serial.write('S');
 }
 
@@ -259,9 +309,13 @@ void Clear()  {
 	fill_solid (leds, NUM_LEDS, CRGB::Blue);
 	FastLED.setBrightness(BRIGHTNESS);
 	FastLED.show();
-	delay(500);
+	if (check_interrupt(500)) {
+		return;
+	}
 	FastLED.clear();
 	FastLED.show();
-	delay(500);
+	if (check_interrupt(500)) {
+		return;
+	}
 	Serial.write('C');
 }
